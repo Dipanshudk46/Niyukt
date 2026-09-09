@@ -1,0 +1,21 @@
+[1mdiff --git a/Backend/src/app.js b/Backend/src/app.js[m
+[1mindex d1c9c43..92123c9 100644[m
+[1m--- a/Backend/src/app.js[m
+[1m+++ b/Backend/src/app.js[m
+[36m@@ -1,11 +1,13 @@[m
+     //Config the express Application file[m
+     const express = require('express')[m
+[31m-[m
+[31m-[m
+[32m+[m[41m    [m
+     const router = require('./routes/health.routes')[m
+[32m+[m[41m    [m
+[32m+[m[32m    const taskRouter = require('./routes/task.routes')[m
+     const app = express()[m
+ [m
+ [m
+     app.use(express.json()) [m
+     app.use('/api/v1',router)[m
+[32m+[m[32m    app.use('/api/v1',taskRouter)[m
+     module.exports = app[m
+\ No newline at end of file[m
