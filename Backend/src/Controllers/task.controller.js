@@ -1,9 +1,14 @@
 const taskService = require('../services/task.service')
-const demoTask = (req,res)=>{
+const createTask = (req,res)=>{
 
  const taskData = req.body
 
- if(!taskData.title || !taskData.description || !taskData.city){
+ if( !taskData.title ||
+     !taskData.description ||
+     !taskData.location ||
+     !taskData.scheduledAt ||
+     !taskData.packageId
+    ){
     return res.status(400).json({
         success:false,
         message:"Task data is incomplete",
@@ -12,6 +17,25 @@ const demoTask = (req,res)=>{
         }
     })
  }
+
+ if( taskData.location.type !== "Point" || 
+    !Array.isArray(taskData.location.coordinates)||
+     taskData.location.coordinates.length !==2 ||
+     isNaN(taskData.location.coordinates[0]) ||
+     isNaN(taskData.location.coordinates[1]) ||
+     taskData.location.coordinates[0] <-180 || 
+     taskData.location.coordinates[0] >180 ||
+     taskData.location.coordinates[1] <-90 ||
+     taskData.location.coordinates[1] >90
+    ){
+        return res.status(400).json({
+            success:false,
+            message:"Location is not Valid",
+            error:{
+                code:"VALIDATION_ERROR"
+            }
+        })
+    }
 
  const task = taskService.createTask(taskData)
 
@@ -23,4 +47,4 @@ const demoTask = (req,res)=>{
 }
 
 
-module.exports = {demoTask}
+module.exports = {createTask}

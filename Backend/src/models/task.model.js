@@ -56,11 +56,13 @@ const taskSchema = new mongoose.Schema(
 
         packageId: {
             type: mongoose.Schema.Types.ObjectId,
+            ref:"Package",
             required: true
         },
 
         requesterId: {
             type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
             required: true
         },
 
@@ -85,5 +87,5 @@ const taskSchema = new mongoose.Schema(
         timestamps: true
     }
 )
-
+taskSchema.index({ location: "2dsphere" })
 module.exports = mongoose.model("Task", taskSchema)
